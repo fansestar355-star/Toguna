@@ -299,19 +299,21 @@
       #rain-modal.active {
         opacity: 1;
         pointer-events: auto;
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
       }
 
       .wisdom-modal-style {
+        /* Centrage fiable sur tous les mobiles */
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.9);
-        width: calc(100vw - 40px);
+        inset: 0;
+        margin: auto;
+        width: calc(100% - 40px);
         max-width: 420px;
+        height: fit-content;
         max-height: 85dvh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        transform: scale(0.9);
         background: linear-gradient(
           135deg,
           rgba(85, 65, 93, 0.95),
@@ -1010,11 +1012,12 @@
       /* Modal LinkedIn Confirmation */
       #linkedin-modal {
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.9);
-        width: 85%;
+        inset: 0;
+        margin: auto;
+        transform: scale(0.9);
+        width: calc(100% - 40px);
         max-width: 400px;
+        height: fit-content;
         background: linear-gradient(
           135deg,
           rgba(85, 65, 93, 0.98),
@@ -1037,7 +1040,7 @@
       #linkedin-modal.active {
         opacity: 1;
         pointer-events: auto;
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
       }
 
       #linkedin-modal h3 {
