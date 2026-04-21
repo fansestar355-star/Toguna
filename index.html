@@ -1283,7 +1283,14 @@
     </div>
 
     <script>
+      // Masque le popup si l'utilisateur revient depuis les Pillars
+      if (sessionStorage.getItem("toguna_visited")) {
+        const p = document.getElementById("welcome-popup");
+        p.style.display = "none";
+      }
+
       function closePopup() {
+        sessionStorage.setItem("toguna_visited", "true");
         const popup = document.getElementById("welcome-popup");
         popup.style.opacity = "0";
         setTimeout(() => {
