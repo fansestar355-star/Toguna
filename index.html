@@ -3,7 +3,7 @@
   <head>
     <title>Toguna Experience AR</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 
     <script
       type="module"
@@ -299,11 +299,11 @@
       #rain-modal.active {
         opacity: 1;
         pointer-events: auto;
-        transform: scale(1);
+        transform: translate(var(--vv-x, 0px), var(--vv-y, 0px)) scale(1);
       }
 
       .wisdom-modal-style {
-        /* Centrage fiable sur tous les mobiles */
+        /* Centrage fiable + compensation Visual Viewport mobile */
         position: fixed;
         inset: 0;
         margin: auto;
@@ -313,7 +313,7 @@
         max-height: 85dvh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        transform: scale(0.9);
+        transform: translate(var(--vv-x, 0px), var(--vv-y, 0px)) scale(0.9);
         background: linear-gradient(
           135deg,
           rgba(85, 65, 93, 0.95),
@@ -1014,7 +1014,7 @@
         position: fixed;
         inset: 0;
         margin: auto;
-        transform: scale(0.9);
+        transform: translate(var(--vv-x, 0px), var(--vv-y, 0px)) scale(0.9);
         width: calc(100% - 40px);
         max-width: 400px;
         height: fit-content;
@@ -1040,7 +1040,7 @@
       #linkedin-modal.active {
         opacity: 1;
         pointer-events: auto;
-        transform: scale(1);
+        transform: translate(var(--vv-x, 0px), var(--vv-y, 0px)) scale(1);
       }
 
       #linkedin-modal h3 {
@@ -1188,7 +1188,7 @@
       shadow-intensity="1.5"
       auto-rotate
       exposure="1.1"
-      touch-action="pan-y"
+      touch-action="none"
     >
       <!-- HUD Overlay (Visible en AR WebXR uniquement en mode Hologramme) -->
       <div id="hud-overlay">
@@ -1593,6 +1593,25 @@
         window.open(linkedInUrl, "_blank", "noopener,noreferrer");
         closeLinkedInModal();
       }
+
+      // --- VISUAL VIEWPORT API ---
+      // Compense le decalage du viewport visuel quand l'utilisateur
+      // interagit avec le modele 3D (drag, pinch-zoom) sur mobile.
+      (function () {
+        const vv = window.visualViewport;
+        if (!vv) return;
+
+        function syncViewport() {
+          const x = vv.offsetLeft;
+          const y = vv.offsetTop;
+          document.documentElement.style.setProperty("--vv-x", x + "px");
+          document.documentElement.style.setProperty("--vv-y", y + "px");
+        }
+
+        vv.addEventListener("scroll", syncViewport);
+        vv.addEventListener("resize", syncViewport);
+        syncViewport();
+      })();
 
       // Hide labels when clicking elsewhere
       document.addEventListener("click", function (e) {
